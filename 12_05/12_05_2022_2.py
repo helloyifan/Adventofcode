@@ -36,7 +36,7 @@ class Solution():
             moveFrom = int(nums[1])
             moveTo = int(nums[2])
 
-            #So [move*-1:] works because [-1:] is ignoring the first number right
+            #So [move*-1:] works because [-1:] is ignoring only the last number right
             numbersToMove = stacks[moveFrom][move*-1:]
 
             # .extend does not need reassignment

@@ -54,6 +54,16 @@ class Solution():
 sol = Solution()
 sol.main()
 
-##
-## 1 5 9 13
-## 
+'''
+{1: ['P', 'L'], 2: ['S', 'G', 'B', 'H', 'B', 'F', 'V', 'Z', 'D', 'R', 'B', 'W', 'J'], 3: ['J', 'C', 'P', 'P', 'B', 'N', 'R', 'L', 'S'], 4: ['C', 'F', 'V'], 5: ['R', 'S', 'D', 'L'], 6: ['T', 'T'], 7: ['J', 'W'], 8: ['J', 'T', 'V', 'C', 'D', 'B', 'M', 'R', 'N', 'W', 'P', 'H', 'B', 'B', 'T', 'R', 'P', 'Q'], 9: ['N', 'P', 'M']}
+1 top val L
+2 top val J
+3 top val S
+4 top val V
+5 top val L
+6 top val T
+7 top val W
+8 top val Q
+9 top val M
+Final result:  LJSVLTWQM
+'''
