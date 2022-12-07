@@ -1,0 +1,42 @@
+----
+sym: /
+size: 0
+----
+sym: a
+size: 0
+----
+sym: e
+size: 0
+----
+sym: i
+size: 584
+----
+sym: f
+size: 29116
+----
+sym: g
+size: 2557
+----
+sym: h.lst
+size: 62596
+----
+sym: b.txt
+size: 14848514
+----
+sym: c.dat
+size: 8504156
+----
+sym: d
+size: 0
+----
+sym: j
+size: 4060174
+----
+sym: d.log
+size: 8033020
+----
+sym: d.ext
+size: 5626152
+----
+sym: k
+size: 7214296
