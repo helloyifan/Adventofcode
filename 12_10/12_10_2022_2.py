@@ -14,8 +14,6 @@ class Solution():
             cycle += 1
 
             screenSymbol = self.checkLit(currentCRTRow, xRegVal)
-            # Not sure what i want to do with this 
-            # currentScreen= self.stringReplacement(currentScreen, cycle-1, screenSymbol)
             currentCRTRow += screenSymbol
 
             if (cycle == signalStrength):
@@ -74,4 +72,4 @@ sol.main()
 #.#..#..#.#....#..#.#.#..#..#.#..#.#....
 #..#.###..#....#..#.#..#.#..#..###.#....
 
-## Took me atleast another 33 mins
+## Took me atleast another  33 mins
