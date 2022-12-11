@@ -120,6 +120,8 @@ sol = Solution()
 sol.main()
 
 
-## It took me 1hour 30min
-#Your puzzle answer was 56595.
+## Part 2 took me like 20 mins
+# Answer was 15693274740
+# How dare the problem maker question my ability to understand elementary school math
+
 
