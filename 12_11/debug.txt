@@ -1,0 +1,4 @@
+monkeyDivisorsMultiplyied:  9699690
+largestCounter:  127335
+secondLargestCounter:  123244
+product:  15693274740
