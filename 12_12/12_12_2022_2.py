@@ -31,6 +31,12 @@ class Solution():
             self.visited.append(vKey)
             preChar = self.matrix[c['row']][c['col']]
 
+            startingStep = c['startingStep'] + 1
+            ac = c['aCord']
+            if (self.matrix[c['row']][c['col']] == 'a' or self.matrix[c['row']][c['col']] == 'S'): 
+                startingStep = 1 #This produces the right answer, however the test example is wrong then
+                ac = { 'row': c['row'], 'col': c['col']}
+
             if (preChar == 'E'):
                 # We are done
                 print("we are done")
@@ -38,46 +44,20 @@ class Solution():
                 break
 
             if (self.canWeVisit(c['row'] + 1, c['col'], preChar)):
-                startingStep = c['startingStep'] + 1
-                ac = c['aCord']
-                if (self.matrix[c['row'] + 1][c['col']] == 'a'): 
-                    startingStep = 0
-                    ac = { 'row': c['row'] + 1, 'col': c['col']}
-                
                 tU = { 'row': c['row'] + 1, 'col': c['col'], 'count': c['count']+1, 'startingStep': startingStep, 'aCord': ac}
                 q.append(tU)
 
             if (self.canWeVisit(c['row'] - 1, c['col'], preChar)):
-                startingStep = c['startingStep'] + 1
-                ac = c['aCord']
-                if (self.matrix[c['row'] - 1][c['col']] == 'a'): 
-                    startingStep = 0
-                    ac = { 'row': c['row'] - 1, 'col': c['col']}
-
                 tD = { 'row': c['row'] - 1, 'col':c['col'], 'count': c['count']+1, 'startingStep': startingStep, 'aCord': ac}
                 q.append(tD)
 
             if (self.canWeVisit(c['row'], c['col'] + 1, preChar)):
-                startingStep = c['startingStep'] + 1
-                ac = c['aCord']
-                if (self.matrix[c['row']][c['col']+1] == 'a'): 
-                    startingStep = 0
-                    ac = { 'row': c['row'], 'col': c['col'] + 1}
-
                 tR = { 'row': c['row'], 'col':c['col'] + 1, 'count': c['count']+1, 'startingStep': startingStep, 'aCord': ac}
                 q.append(tR)
 
             if (self.canWeVisit(c['row'], c['col'] -1, preChar)):
-                startingStep = c['startingStep'] + 1
-                ac = c['aCord']
-                if (self.matrix[c['row']][c['col'] -1] == 'a'): 
-                    startingStep = 0              
-                    ac = { 'row': c['row'], 'col': c['col'] -1}
-
                 tL = { 'row': c['row'],'col': c['col'] -1, 'count': c['count']+1, 'startingStep': startingStep, 'aCord': ac}
                 q.append(tL)
-
-
         # print("Debug")
         # self.printVisited()
 
@@ -158,5 +138,5 @@ print(f"The time of execution of above program is : {td:.03f}ms")
 
 
 # Your puzzle answer was 488.
-# I think there is a bug somewhere
+# I think there is a bug somewhere related to off by 1 offset and the `aCord` isnt updating like how i expected
 # I think it took me 20-30 min of debugging
