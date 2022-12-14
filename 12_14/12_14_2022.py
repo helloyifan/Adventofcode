@@ -2,12 +2,50 @@ from collections import defaultdict
 
 class Solution():
     sparceMatrix = defaultdict(lambda: defaultdict(str))  # {x: {y: val}}
+    lowestPoint = float('-inf')
+    droppedIntoAbyss = False
+
     def main(self):
         self.parseInputBuildMatrix()
+        print("lowestPoint: ", self.lowestPoint)
+
+        sandDropped = 0
+        while (self.droppedIntoAbyss == False):
+            self.dropSand(500, 0)
+            sandDropped += 1
+
+        ### Sample Input
+        #print(self.sparceMatrix[500][8])
+        self.printVisualSparceMatrix(494, 503+1, 0, 9+1)
+
+        print("sandDropped: ", sandDropped-1) #don't count the last sand
         return None
+
+    def dropSand(self, dropSandX, dropSandY):
+        sX, sY = dropSandX, dropSandY
+
+        while True:            
+            if(sY > self.lowestPoint):
+                self.droppedIntoAbyss = True
+                break
+            elif (not self.sparceMatrix[sX][sY + 1]):
+                sY += 1
+            elif(not self.sparceMatrix[sX - 1][sY + 1]):
+                sY += 1
+                sX -= 1 
+            elif(not self.sparceMatrix[sX + 1][sY + 1]):
+                sY += 1
+                sX += 1
+            else:
+                break
+
+        self.sparceMatrix[sX][sY] = 'o'
+        print(sX, sY)
+        return None
+
     
     def parseInputBuildMatrix(self):
-        f = open('sample_input.txt', 'r')
+        f = open('input.txt', 'r')
 
         for line in f:
             oldCoord = None # Reset these for every new line of inptu
@@ -20,13 +58,20 @@ class Solution():
                 step = step.split(',')
                 newCoord = {'x':int(step[0]), 'y': int(step[1])}
                 
+                self.lowestPoint = max(self.lowestPoint, newCoord['y']) #The lowest point is a big number, pretend its negative shut up.
+
                 if (oldCoord != None):
                     self.fillMatrix(oldCoord, newCoord)    
                 
                 oldCoord = newCoord
 
         #self.simplePrintSparceMatrix()
-        self.printVisualSparceMatrix(494, 503+1, 0, 9+1)
+        ### Sample Input
+        #self.printVisualSparceMatrix(494, 503+1, 0, 9+1)
+        
+        ### Input
+        #self.printVisualSparceMatrix(494, 550+1, 0, 190+1)
+
         return None
 
     # After the first point of each path, each point indicates the end of a straight horizontal or vertical
@@ -69,7 +114,7 @@ class Solution():
         for y in range(startY, endY):
             outPutLine = ''
             for x in range(startX, endX):
-                char = '# ' if (self.sparceMatrix[x][y] == '#') else '. '
+                char = self.sparceMatrix[x][y] if (self.sparceMatrix[x][y]) else '.'
                 outPutLine += char
             print(outPutLine)
 
