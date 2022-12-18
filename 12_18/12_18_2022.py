@@ -13,8 +13,9 @@ class Solution():
         xKey = self.positions.keys()
 
         for i in self.inputList:
-            runningSum += self.checkHowManyFreeFaces(i['x'], i['y'], i['z'])
-            print(i, runningSum)
+            freeSides = self.checkHowManyFreeFaces(i['x'], i['y'], i['z'])
+            runningSum += freeSides
+            print(i, freeSides)
 
         print("sidesFree: ", runningSum)
         return None
@@ -70,3 +71,5 @@ class Solution():
     
 sol = Solution()
 sol.main()
+
+# sidesFree:  4364
