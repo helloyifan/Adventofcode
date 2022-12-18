@@ -10,7 +10,7 @@ class Solution():
     def main(self):
         self.parseInput() # Set True to run test input 
         self.floydWarshall()
-        ret = self.dfs('AA', 30, [] , [])
+        ret = self.dfs('AA', 26, [] , [])
         return None
 
     def dfs(self, curLoc, time, turnedOn, turnedOnAndWhen):
