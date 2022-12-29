@@ -1,5 +1,6 @@
 from collections import defaultdict
 from aoc_util import shape1, shape2, shape3, shape4, shape5, convertLinesIntoSparceMatList, printRockInChamber, findMaxHeightOfRocksInChamber
+import sys
 
 class Solution():
     
@@ -7,9 +8,11 @@ class Solution():
         # The tall, vertical chamber is exactly seven units wide. 
         self.rocksInChamber = defaultdict(lambda: defaultdict(str))  # {y: {x: val}}
         self.maxHeight = 0
+        self.gasCounter = 0 
 
 
     def main(self):
+        self.parseInput()
         # self.figureOutPositionBeforeDrop(shape2)
         curRock = convertLinesIntoSparceMatList(shape2)
         self.dropRock(curRock)
@@ -32,10 +35,11 @@ class Solution():
 
         while True:
             noCollisionIfMove = True
+            gasChangeXVal = self.getGasChangeXVal()
             # Will there be collision if we move stuff down one more step?
             for y in curRock:
                 for x in curRock[y]:
-                    if (self.isThereCollisionForCoord(y-1, x)):
+                    if (self.isThereCollisionForCoord(y-1, x + gasChangeXVal)):
                         noCollisionIfMove = False
                 if (noCollisionIfMove == False):
                     break
@@ -46,8 +50,11 @@ class Solution():
                 tempRock = defaultdict(lambda: defaultdict(str))
                 for y in curRock:
                     for x in curRock[y]:
-                        tempRock[y - 1][x] = curRock[y][x]
+                        tempRock[y - 1][x + gasChangeXVal] = curRock[y][x]
                 curRock = tempRock
+                
+                # Only count up when we commit to the move
+                self.gasCounter += 1
             else:
                 break
 
@@ -73,6 +80,22 @@ class Solution():
             for x in rock[y]:
                self.rocksInChamber[y][x] = True
         return None
+
+    def parseInput(self):
+        f = open(str(sys.argv[1]), 'r')
+        self.gas = f.read()
+
+    def getGasChangeXVal(self):
+        indexInString = self.gasCounter % ( len(self.gas))
+        arrowVal = self.gas[indexInString]
+
+        if (arrowVal == '>'):
+            return 1
+        elif(arrowVal == '<'):
+            return -1
+        else:
+            print("How the fuck we return " + arrowVal )
+            return None
 
 
 sol = Solution()
