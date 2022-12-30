@@ -41,9 +41,7 @@ def findMaxHeightOfRocksInChamber(rocksInChamber):
     maxHeightWithEmpty = 0
     if(rocksInChamber):
         maxHeightWithEmpty = max(list(rocksInChamber.keys()))
-        #print(maxHeightWithEmpty)
 
-    #print('----')
     return maxHeightWithEmpty
 
 def printRockInChamber(rocksInChamber):
