@@ -7,25 +7,29 @@ class Solution():
     def __init__(self):
         # The tall, vertical chamber is exactly seven units wide. 
         self.rocksInChamber = defaultdict(lambda: defaultdict(str))  # {y: {x: val}}
-        self.maxHeight = 0
-        self.gasCounter = 0 
+        self.gasCounter = 0 # Used to figure out where we are in the input line
+        self.rocksToDrop = 0  # How many rocks we want to drop
 
 
     def main(self):
         self.parseInput()
-        # self.figureOutPositionBeforeDrop(shape2)
-        curRock = convertLinesIntoSparceMatList(shape2)
-        self.dropRock(curRock)
+        shapeList = [shape1, shape2, shape3, shape4, shape5]
+        rockDroppedCounter = 0
         
-        printRockInChamber(self.rocksInChamber)
+        while rockDroppedCounter < self.rocksToDrop:
+            dropThisRock = rockDroppedCounter % len(shapeList)
+            curRock = convertLinesIntoSparceMatList(shapeList[dropThisRock])
+            self.dropRock(curRock)
+            rockDroppedCounter += 1
+        
+        #printRockInChamber(self.rocksInChamber)
+        print("ret: ", findMaxHeightOfRocksInChamber(self.rocksInChamber) + 1) # Don't know why i have off by one, nor do i care
         return None
 
     def dropRock(self, curRock):
         startDisFromLeftWall = 2 # Each rock appears so that its left edge is two units away from the left wall and 
         maxHeight = findMaxHeightOfRocksInChamber(self.rocksInChamber)
         startHeight = 3 + maxHeight # its bottom edge is three units above the highest rock in the room (or the floor, if there isn't one).
-
-        print(startHeight)
 
         newRock = defaultdict(lambda: defaultdict(str))
         for y in curRock:
@@ -34,28 +38,55 @@ class Solution():
         curRock = newRock
 
         while True:
-            noCollisionIfMove = True
+           
+            ### Moving left right
+            noBlockersIfMoveLR = True
             gasChangeXVal = self.getGasChangeXVal()
-            # Will there be collision if we move stuff down one more step?
+            # Can this move by gasChangeXVal (left/right)
             for y in curRock:
                 for x in curRock[y]:
-                    if (self.isThereCollisionForCoord(y-1, x + gasChangeXVal)):
-                        noCollisionIfMove = False
-                if (noCollisionIfMove == False):
+                    if (self.isThereCollisionForCoordLR(y, x + gasChangeXVal)):
+                        noBlockersIfMoveLR = False
+                if (noBlockersIfMoveLR == False):
                     break
-
             
-            # if not move it
-            if (noCollisionIfMove == True):
+            # If theres no blockers, move it
+            if (noBlockersIfMoveLR == True):
                 tempRock = defaultdict(lambda: defaultdict(str))
                 for y in curRock:
                     for x in curRock[y]:
-                        tempRock[y - 1][x + gasChangeXVal] = curRock[y][x]
+                        tempRock[y][x + gasChangeXVal] = curRock[y][x]
                 curRock = tempRock
-                
-                # Only count up when we commit to the move
-                self.gasCounter += 1
+
+            self.gasCounter += 1
+
+
+            ### Moving down
+            noCollisionIfMoveDown = True
+            # Will there be collision if we move stuff down one more step?
+            for y in curRock:
+                for x in curRock[y]:
+                    if (self.isThereCollisionForCoordDown(y-1, x)):
+                        noCollisionIfMoveDown = False
+                if (noCollisionIfMoveDown == False):
+                    break
+            
+            # if theres no collisions move it
+            if (noCollisionIfMoveDown == True):
+                tempRock = defaultdict(lambda: defaultdict(str))
+                for y in curRock:
+                    for x in curRock[y]:
+                        tempRock[y - 1][x] = curRock[y][x]
+                curRock = tempRock
             else:
+                break
+
+            ### Check if rock it at  (stupid confusing edge case, we don't want to let it get blown LR if its on the ground)
+            rockTouchingFloor = False
+            for y in curRock:
+                if (y == 0):
+                    rockTouchingFloor = True
+            if (rockTouchingFloor == True):
                 break
 
         # Set in stone (write to rockInChamber)
@@ -63,10 +94,16 @@ class Solution():
         return None
 
 
-    def isThereCollisionForCoord(self, y, x):
+    def isThereCollisionForCoordDown(self, y, x):
         if (y < 0):
             return True
-        
+
+        if (self.rocksInChamber[y][x] == True):
+            return True
+
+        return False
+
+    def isThereCollisionForCoordLR(self, y, x):
         if (x >= 7 or x < 0):
             return True
 
@@ -83,12 +120,12 @@ class Solution():
 
     def parseInput(self):
         f = open(str(sys.argv[1]), 'r')
+        self.rocksToDrop = int(sys.argv[2])
         self.gas = f.read()
 
     def getGasChangeXVal(self):
         indexInString = self.gasCounter % ( len(self.gas))
         arrowVal = self.gas[indexInString]
-
         if (arrowVal == '>'):
             return 1
         elif(arrowVal == '<'):
@@ -100,3 +137,5 @@ class Solution():
 
 sol = Solution()
 sol.main()
+
+# Final  answer is 3090
