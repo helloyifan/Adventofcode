@@ -38,13 +38,13 @@ def convertLinesIntoSparceMatList(shape):
     return curRock
 
 def findMaxHeightOfRocksInChamber(rocksInChamber):
-    maxHeight = 0
-    for y in rocksInChamber:
-        for x in rocksInChamber[y]:
-            if (rocksInChamber[y][x]):
-                maxHeight = max(maxHeight, y)
-                break
-    return maxHeight
+    maxHeightWithEmpty = 0
+    if(rocksInChamber):
+        maxHeightWithEmpty = max(list(rocksInChamber.keys()))
+        #print(maxHeightWithEmpty)
+
+    #print('----')
+    return maxHeightWithEmpty
 
 def printRockInChamber(rocksInChamber):
     maxHeight = findMaxHeightOfRocksInChamber(rocksInChamber)

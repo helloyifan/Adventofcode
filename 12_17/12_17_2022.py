@@ -81,7 +81,7 @@ class Solution():
             else:
                 break
 
-            ### Check if rock it at  (stupid confusing edge case, we don't want to let it get blown LR if its on the ground)
+            ### Check if rock it at bottom (stupid confusing edge case, we don't want to let it get blown LR if its on the ground)
             rockTouchingFloor = False
             for y in curRock:
                 if (y == 0):
@@ -100,6 +100,11 @@ class Solution():
 
         if (self.rocksInChamber[y][x] == True):
             return True
+        else:
+            del self.rocksInChamber[y][x]
+
+        if (not self.rocksInChamber[y]):
+            del self.rocksInChamber[y]
 
         return False
 
@@ -109,7 +114,11 @@ class Solution():
 
         if (self.rocksInChamber[y][x] == True):
             return True
+        else:
+            del self.rocksInChamber[y][x]
 
+        if (not self.rocksInChamber[y]):
+            del self.rocksInChamber[y]
         return False
  
     def rockLandsInChamber(self, rock):
