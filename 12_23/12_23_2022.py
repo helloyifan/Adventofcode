@@ -24,27 +24,46 @@ class Solution():
         print("smallest rectangle: ", self.smallestRectangle())
         return None
 
+    def tryMoving(self, direction,  elfRow, elfCol):
+        if (direction == 0):
+            return self.checkNorth(elfRow - 1, elfCol)
+        elif(direction == 1):
+            return self.checkSouth(elfRow + 1, elfCol)
+        elif(direction == 2):
+            return self.checkWest(elfRow, elfCol - 1)
+        elif(direction == 3):
+            return self.checkEast(elfRow, elfCol + 1)
+        print("this is bad")
+        return None
+
+
     def executeStep(self):
         plannedNextElfMove = {} # plannedNextElfMove: {location: currentElfLocation}
 
-        firstDirection = stepCounter % 4
-
         for elfCoord in self.sparceMatrix:
             elfRow, elfCol = elfCoord[0], elfCoord[1]
+            finalDirection = None
 
             if (self.checkAround(elfRow, elfCol)):
                 self.setPlanNextElfMove((elfRow, elfCol), elfCoord, plannedNextElfMove)
+            else:
+                for i in range(4):
+                    direction = (self.stepCounter  + i) % 4
+                    print(direction)
+                    if (self.tryMoving(direction, elfRow, elfCol)):
+                        finalDirection = direction
+
             
-            elif(self.checkNorth(elfRow, elfCol)):
+            if(finalDirection == 0):
                 self.setPlanNextElfMove((elfRow - 1, elfCol), elfCoord, plannedNextElfMove)
 
-            elif(self.checkSouth(elfRow, elfCol)):
+            elif(finalDirection == 1):
                 self.setPlanNextElfMove((elfRow + 1, elfCol), elfCoord, plannedNextElfMove)
 
-            elif(self.checkWest(elfRow, elfCol)):
+            elif(finalDirection == 2):
                 self.setPlanNextElfMove((elfRow, elfCol - 1), elfCoord, plannedNextElfMove)
 
-            elif(self.checkEast(elfRow, elfCol)):
+            elif(finalDirection == 3):
                 self.setPlanNextElfMove((elfRow, elfCol + 1), elfCoord, plannedNextElfMove)
 
 
