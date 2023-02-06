@@ -11,7 +11,7 @@ class Solution():
     
     def main(self):
         # Debug
-        #print(self.sparceMatrix)
+        print(self.sparceMatrix)
 
         print("Initial State")        
         self.printer()
@@ -26,13 +26,13 @@ class Solution():
 
     def tryMoving(self, direction,  elfRow, elfCol):
         if (direction == 0):
-            return self.checkNorth(elfRow - 1, elfCol)
+            return self.checkNorth(elfRow, elfCol)
         elif(direction == 1):
-            return self.checkSouth(elfRow + 1, elfCol)
+            return self.checkSouth(elfRow, elfCol)
         elif(direction == 2):
-            return self.checkWest(elfRow, elfCol - 1)
+            return self.checkWest(elfRow, elfCol)
         elif(direction == 3):
-            return self.checkEast(elfRow, elfCol + 1)
+            return self.checkEast(elfRow, elfCol)
         print("this is bad")
         return None
 
@@ -48,24 +48,25 @@ class Solution():
                 self.setPlanNextElfMove((elfRow, elfCol), elfCoord, plannedNextElfMove)
             else:
                 for i in range(4):
-                    direction = (self.stepCounter  + i) % 4
-                    print(direction)
-                    if (self.tryMoving(direction, elfRow, elfCol)):
+                    direction = (self.stepCounter + i) % 4
+                    if (self.tryMoving(direction, elfRow, elfCol) == True):
                         finalDirection = direction
+                        break
 
-            
-            if(finalDirection == 0):
-                self.setPlanNextElfMove((elfRow - 1, elfCol), elfCoord, plannedNextElfMove)
+                if(finalDirection == 0):
+                    self.setPlanNextElfMove((elfRow - 1, elfCol), elfCoord, plannedNextElfMove)
 
-            elif(finalDirection == 1):
-                self.setPlanNextElfMove((elfRow + 1, elfCol), elfCoord, plannedNextElfMove)
+                elif(finalDirection == 1):
+                    self.setPlanNextElfMove((elfRow + 1, elfCol), elfCoord, plannedNextElfMove)
 
-            elif(finalDirection == 2):
-                self.setPlanNextElfMove((elfRow, elfCol - 1), elfCoord, plannedNextElfMove)
+                elif(finalDirection == 2):
+                    self.setPlanNextElfMove((elfRow, elfCol - 1), elfCoord, plannedNextElfMove)
 
-            elif(finalDirection == 3):
-                self.setPlanNextElfMove((elfRow, elfCol + 1), elfCoord, plannedNextElfMove)
+                elif(finalDirection == 3):
+                    self.setPlanNextElfMove((elfRow, elfCol + 1), elfCoord, plannedNextElfMove)
 
+                else:
+                    self.setPlanNextElfMove((elfRow, elfCol), elfCoord, plannedNextElfMove)
 
         #Execute changes
         # Not sure about logic here, but basically just taking all of the moves in plannedNextElfMove
@@ -88,12 +89,8 @@ class Solution():
 
         # Replace self.sparceMatrix with our newly created one 
         self.sparceMatrix = updatedSparceMatrix
+        self.stepCounter += 1
         return None
-
-    def handleNorth(self, elfRow, elfCol, elfCoord, plannedNextElfMove):
-        if(self.checkNorth(elfRow, elfCol)):
-                self.setPlanNextElfMove((elfRow - 1, elfCol), elfCoord, plannedNextElfMove)
-
 
     def setPlanNextElfMove(self, nextLoc, curLoc, plannedNextElfMove):
         if (nextLoc in plannedNextElfMove):
@@ -181,16 +178,16 @@ class Solution():
         minRowVal, minColVal = float('inf'), float('inf')
 
         for key in self.sparceMatrix:
-            maxRowVal = max(maxRowVal, key[0] + 2) # Add 2 off set for better views
-            maxColVal = max(maxColVal, key[1] + 2)
+            maxRowVal = max(maxRowVal, key[0]) # Add 1 off set for better views
+            maxColVal = max(maxColVal, key[1])
 
-            minRowVal = min(minRowVal, key[0] - 2)
-            minColVal = min(minColVal, key[1] - 2)
+            minRowVal = min(minRowVal, key[0])
+            minColVal = min(minColVal, key[1])
 
 
-        for row in range(minRowVal, maxRowVal):
+        for row in range(minRowVal, maxRowVal + 1):
             line = ''
-            for col in range(minColVal, maxColVal):
+            for col in range(minColVal, maxColVal + 1):
                 keyTuple = (row, col)
 
                 if (keyTuple in self.sparceMatrix and self.sparceMatrix[keyTuple] == '#'):
@@ -210,14 +207,17 @@ class Solution():
             maxRowVal = max(maxRowVal, key[0]) # Add 2 off set for better views
             maxColVal = max(maxColVal, key[1])
             
-            minRowVal = min(minRowVal, key[0] - 2)
-            minColVal = min(minColVal, key[1] - 2)
+            minRowVal = min(minRowVal, key[0])
+            minColVal = min(minColVal, key[1])
 
-        rowVal = maxRowVal - minRowVal
-        colVal = maxColVal - minColVal
+        rowVal = maxRowVal - minRowVal + 1
+        colVal = maxColVal - minColVal + 1
         
 
         return (rowVal * colVal) - numberOfElves
 
 sol = Solution()
 sol.main()
+
+## Not 6642 (your answer is too high)
+## Not 6480 (your answer is too high)
