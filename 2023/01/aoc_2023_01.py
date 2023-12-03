@@ -1,11 +1,12 @@
 
 import sys
-sys.path.append('/home/jonathan/workspace/gitShitDone/Adventofcode/2023')
-from helper.file_reader import read_file
+import aoc_commons.file_reader as ac
+
+#  python3 -m 01.aoc_2023_01 01/input.txt
 
 class Solution():
     def trebuchet(self):
-        f = read_file()
+        f = ac.read_file()
 
         runningSum = 0
         for line in f:
