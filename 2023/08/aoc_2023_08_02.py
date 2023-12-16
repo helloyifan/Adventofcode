@@ -54,7 +54,6 @@ class Solution:
             cur_loc =  self.wasteland_map[cur_loc][next_step_dir]
             steps += 1
             if cur_loc[2] == 'Z':
-                print(cur_loc)
                 return steps
             
 
