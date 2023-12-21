@@ -8,3 +8,6 @@ def read_file():
     file_name = sys.argv[1]
     file = open(file_name, "r")
     return file
+
+def read_file_get_input_string():
+    return read_file().read().strip().split('\n')

@@ -1,7 +1,7 @@
 import sys
 import re
 
-from aoc_commons import file_reader, pretty_print_2d_list
+from aoc_commons import file_reader, pretty_print
 
 class Solution():
 
@@ -18,7 +18,7 @@ class Solution():
         self.create_map(f)
 
 
-        pretty_print_2d_list.pretty_print(self.map_of_data)
+        pretty_print.two_d_list(self.map_of_data)
         print("num_rows: ", self.num_rows)
         print("num_cols: ", self.num_cols)
 
