@@ -1,5 +1,3 @@
-import sys
-import re
 from aoc_commons import file_reader
 from aoc_commons import pretty_print
 import copy
