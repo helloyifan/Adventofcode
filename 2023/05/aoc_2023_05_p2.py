@@ -1,14 +1,9 @@
-import sys
-import re
-import copy
-import json
-from aoc_commons import file_reader
+from aoc_commons import file_reader, pretty_print
 
 
 class Solution():
     seed_ranges = []
     parsed_input = {}
-
     ranges = {}
 
     def read_whole_file(self):
@@ -74,39 +69,42 @@ class Solution():
         return
 
     # Note the end isn't inclusive
-    def check_range_inclosure(self, input_range, enclosing_ranges):
-        ans = []
-        print(input_range)
+    def check_range_inclosure(self, input_range, enclosing_ranges, new_ranges):
+        isChange = False
         for enclosing_range in enclosing_ranges:
-            low = enclosing_range['sr_start']
-            high = enclosing_range['sr_end']
-            offset = enclosing_range['offset']
-
+            e_start = enclosing_range['sr_start']
+            e_end = enclosing_range['sr_end']
+            e_offset = enclosing_range['offset']
             i_start = input_range['range_start']
             i_end = input_range['range_end']
+            
+        
+            if i_end >= e_start and i_start <= e_end:# this should mean some overlap
 
-            if not (i_end < low or i_start > high):
-                print('yeah ')
-                ans.append({'range_start': max(i_start, low), 'range_end':min(i_end, high), 'offset': offset})
-            # otherwise do we append with 0 offset?
+                if i_start < e_start: # if theres overlap to the left (front)
+                    #new_ranges.append({'range_start': i_start, 'range_end': e_start})
+                    i_start = e_start
 
-        new_ranges = []
-        # process the ans
-        for i, interval in enumerate(ans):
-            print('i', i)
-            print('interval', interval)
+                if e_end < i_end: # if theres overlap to the right (end)
+                    #new_ranges.append({'range_start': e_end, 'range_end': i_end})
+                    i_end = e_end
 
+                new_ranges.append({'range_start': max(i_start, e_start) + e_offset, 'range_end':min(i_end, e_end) + e_offset})
+                isChange = True
+
+        if not isChange:
+            new_ranges.append({'range_start': i_start, 'range_end': i_end})
+        
         return 
+    
+
     # This is really messed up, 
     # How do we iterate through all of the current level ranges and new ranges
-
     def check_seed_ranges(self, input_ranges, enclosing_ranges):
         new_ranges = []
 
         for input_range in input_ranges:
-            cur_rets = self.check_range_inclosure(input_range, enclosing_ranges)
-            if cur_rets:
-                new_ranges.append(cur_rets)
+            self.check_range_inclosure(input_range, enclosing_ranges, new_ranges)
         return new_ranges
 
     def process_seed_range(self, seed):
@@ -119,23 +117,44 @@ class Solution():
         temperature_to_humidity = r['temperature-to-humidity map:']
         humidity_to_location = r['humidity-to-location map:']
 
-        soil =  self.check_seed_ranges(seed,seed_to_soil )
-    
-        print(soil)
+        soil =  self.check_seed_ranges(seed, seed_to_soil)
+        fertilizer =  self.check_seed_ranges(soil, soil_to_fertilizer )
+        water = self.check_seed_ranges(fertilizer, fertilizer_to_water )
+        light = self.check_seed_ranges(water, water_to_light)
+        temperature = self.check_seed_ranges(light, light_to_temperature)
+        humidity = self.check_seed_ranges(temperature, temperature_to_humidity)
+        location = self.check_seed_ranges(humidity, humidity_to_location)
+
+        # print('seed', seed)    
+        # print('soil', soil)
+        # print('fertilizer', fertilizer)
+        # print('water', water)
+        # print('light', light)
+        # print('temperature', temperature)
+        # print('humidity', humidity)
+        print(*location, sep='\n')
+
+        print('-------------')
+
+        ret =self.final_ans_helper(location)
+        print('ret:', ret)
         return None # return Location
 
+    def final_ans_helper(self, location):
+        lowest = float('inf')
+        for l in location:
+            lowest = min(lowest, l['range_start'])
+        return lowest
 
     def solution(self):
         self.read_whole_file()
         self.build_ranges()
-
-        min_location = float('inf')
-
-        location = self.process_seed_range(self.seed_ranges)
-        # print(location)
-
+        self.process_seed_range(self.seed_ranges)
         return
 
 if __name__ == "__main__":
     sol = Solution()
     sol.solution()
+
+
+# 2008785

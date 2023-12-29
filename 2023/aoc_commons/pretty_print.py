@@ -6,3 +6,8 @@ def two_d_list(two_dimension_list):
             print(element, end='')
         print(' ')
     return
+
+
+def dict_new_line(dict):
+    for i, e in dict.items():
+        print(i, ' : ', e)

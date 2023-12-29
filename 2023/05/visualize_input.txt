@@ -1,0 +1,34 @@
+seed_ranges:  [
+    {'range_start': 79, 'range_end': 93}, 
+    {'range_start': 55, 'range_end': 68}
+]
+seed-to-soil map:  :  [
+    {'sr_start': 98, 'sr_end': 100, 'offset': -48}, 
+    {'sr_start': 50, 'sr_end': 98, 'offset': 2}
+]
+soil-to-fertilizer map:  :  [
+    {'sr_start': 15, 'sr_end': 52, 'offset': -15}, 
+    {'sr_start': 52, 'sr_end': 54, 'offset': -15}, 
+    {'sr_start': 0, 'sr_end': 15, 'offset': 39}
+]
+fertilizer-to-water map:  :  [
+    {'sr_start': 53, 'sr_end': 61, 'offset': -4}, 
+    {'sr_start': 11, 'sr_end': 53, 'offset': -11}, 
+    {'sr_start': 0, 'sr_end': 7, 'offset': 42}, 
+    {'sr_start': 7, 'sr_end': 11, 'offset': 50}
+]
+water-to-light map:  :  [
+    {'sr_start': 18, 'sr_end': 25, 'offset': 70}, 
+    {'sr_start': 25, 'sr_end': 95, 'offset': -7}]
+light-to-temperature map:  :  [
+    {'sr_start': 77, 'sr_end': 100, 'offset': -32}, 
+    {'sr_start': 45, 'sr_end': 64, 'offset': 36}, 
+    {'sr_start': 64, 'sr_end': 77, 'offset': 4}
+]
+temperature-to-humidity map:  :  [
+    {'sr_start': 69, 'sr_end': 70, 'offset': -69}, 
+    {'sr_start': 0, 'sr_end': 69, 'offset': 1}]
+humidity-to-location map:  :  [
+    {'sr_start': 56, 'sr_end': 93, 'offset': 4}, 
+    {'sr_start': 93, 'sr_end': 97, 'offset': -37}
+]
