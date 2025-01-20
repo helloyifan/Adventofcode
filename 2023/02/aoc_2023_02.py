@@ -7,7 +7,7 @@ from aoc_commons import file_reader as ac
 class Solution():
     
     game_input = []
-
+    print("i just added this lol")
     limits = {
         'red':  12,
         'green': 13,
